@@ -1,5 +1,5 @@
-CC = gcc
-CFLAGS = -Werror -Wall -lSDL2
+win:
+	make -f makefile.win
 
-compile:
-	$(CC) $(CFLAGS) -o CWGOL.exe main.c
+nix:
+	make -f makefile.nix

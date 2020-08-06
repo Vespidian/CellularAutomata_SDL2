@@ -14,11 +14,13 @@ SDL_Renderer *renderer = NULL;
 SDL_Event e;
 
 int singleParticleSize = 6;
+int windowSize = 768;
 
 int cellsOld[128][128] = {};
 int cells[128][128] = {};
 bool quit = false;
 bool isPaused = false;
+bool showGrid = true;
 
 int mouseX, mouseY;
 bool mouseHeld = false;
@@ -31,7 +33,7 @@ void StepLife();
 
 void init(){
 	SDL_Init(SDL_INIT_VIDEO);
-	window = SDL_CreateWindow("Cellular Automata (CWGOL)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 768, 768, SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("Cellular Automata (CWGOL)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowSize, windowSize, SDL_WINDOW_OPENGL);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	
 	printf(
@@ -39,6 +41,7 @@ void init(){
 		"[F] move a single frame forward in time\n"
 		"[C] to clear the screen\n"
 		"[P] to randomly populate the screen\n"
+		"[G] to toggle grid\n"
 		"[Left-Click] Make the currently hovered cell living\n"
 		"[Right-Click] Make the currently hovered cell dead\n"
 		"[Esc] exit\n");
@@ -79,6 +82,9 @@ int main(int argc, char **argv){
 					CreateArrayBackup();
 					StepLife();
 				}
+				if(e.key.keysym.sym == SDLK_g){//Step forward in time 1 frame
+					showGrid = !showGrid;
+				}
 				if(e.key.keysym.sym == SDLK_c){//Set all cells to dead
 					memset(cells, 0, sizeof(cellsOld));
 					memset(cellsOld, 0, sizeof(cells));
@@ -109,14 +115,25 @@ void RenderScreen(){
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
 	SDL_RenderClear(renderer);
 	
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0xff);
 	if(!isPaused){
 		CreateArrayBackup();
 		StepLife();
 	}
 	
 	SDL_Rect cell = {0, 0, 5, 5};
+	SDL_Rect verticalGrid = {0, 0, 1, windowSize};
+	SDL_Rect horizontalGrid = {0, 0, windowSize, 1};
 	for(int y = 0; y < 128; y++){
+		if(showGrid){
+			//Horizontal gird-lines
+			SDL_SetRenderDrawColor(renderer, 22, 22, 22, 0xff);
+			horizontalGrid.y = (y * singleParticleSize) - 1;
+			SDL_RenderDrawRect(renderer, &horizontalGrid);	
+			//Vertical grid-lines
+			verticalGrid.x = (y * singleParticleSize) - 1;
+			SDL_RenderDrawRect(renderer, &verticalGrid);
+		}
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0xff);
 		for(int x = 0; x < 128; x++){
 			cell.x = x * singleParticleSize;
 			cell.y = y * singleParticleSize;
