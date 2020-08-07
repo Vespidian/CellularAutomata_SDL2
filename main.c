@@ -21,6 +21,7 @@ int cells[128][128] = {};
 bool quit = false;
 bool isPaused = false;
 bool showGrid = true;
+SDL_Rect cursor;
 
 int mouseX, mouseY;
 bool mouseHeld = false;
@@ -48,6 +49,8 @@ void init(){
 		
 	memset(cells, 0, sizeof(cellsOld));
 	memset(cellsOld, 0, sizeof(cells));
+	
+	cursor = (SDL_Rect){0, 0, singleParticleSize, singleParticleSize};
 	
 	PopulateCells();
 }
@@ -142,6 +145,11 @@ void RenderScreen(){
 			}
 		}
 	}
+	
+	SDL_SetRenderDrawColor(renderer, 100, 100, 100, 200);
+	cursor.x = ((windowSize / singleParticleSize) * mouseX / windowSize) * singleParticleSize;
+	cursor.y = ((windowSize / singleParticleSize) * mouseY / windowSize) * singleParticleSize;
+	SDL_RenderFillRect(renderer, &cursor);
 	
 	SDL_RenderPresent(renderer);
 }
