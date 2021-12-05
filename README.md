@@ -1,6 +1,10 @@
 # CellularAutomata_SDL2
-Simple Conway's game of life cellular automaton written in C using SDL2
 
+Simple Conway's game of life cellular automaton written in C using SDL2
+___
+![Random Seed Example](/images/cwgl.gif)
+![Common Patterns](/images/cwgl.gif)
+___
 ### Controls
 + [Space] to pause and unpause
 + [F] move a single frame forward in time
@@ -10,5 +14,3 @@ Simple Conway's game of life cellular automaton written in C using SDL2
 + [Left-Click] Make the currently hovered cell living
 + [Right-Click] Make the currently hovered cell dead
 + [Esc] exit
-
-![Example](/Screenshot.PNG)
