@@ -3,7 +3,7 @@
 Simple Conway's game of life cellular automaton written in C using SDL2
 ___
 ![Random Seed Example](/images/cwgl.gif)
-![Common Patterns](/images/cwgl.gif)
+![Common Patterns](/images/cwgl2.gif)
 ___
 ### Controls
 + [Space] to pause and unpause
